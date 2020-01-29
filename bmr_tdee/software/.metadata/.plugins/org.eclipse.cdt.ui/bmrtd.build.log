@@ -1,0 +1,8 @@
+
+**** Build of configuration Nios II for project bmrtd ****
+
+make all 
+Info: Building ../bmrtd_bsp/
+make --no-print-directory -C ../bmrtd_bsp/
+[BSP build complete]
+[bmrtd build complete]

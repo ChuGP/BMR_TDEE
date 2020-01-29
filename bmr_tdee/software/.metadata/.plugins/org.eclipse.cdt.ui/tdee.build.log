@@ -1,0 +1,8 @@
+
+**** Build of configuration Nios II for project tdee ****
+
+make all 
+Info: Building ../tdee_bsp/
+make --no-print-directory -C ../tdee_bsp/
+[BSP build complete]
+[tdee build complete]

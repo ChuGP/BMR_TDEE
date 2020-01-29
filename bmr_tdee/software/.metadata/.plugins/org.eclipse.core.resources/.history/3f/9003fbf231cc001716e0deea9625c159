@@ -1,0 +1,202 @@
+/*
+ * "Hello World" example.
+ *
+ * This example prints 'Hello from Nios II' to the STDOUT stream. It runs on
+ * the Nios II 'standard', 'full_featured', 'fast', and 'low_cost' example
+ * designs. It runs with or without the MicroC/OS-II RTOS and requires a STDOUT
+ * device in your system's hardware.
+ * The memory footprint of this hosted application is ~69 kbytes by default
+ * using the standard reference design.
+ *
+ * For a reduced footprint version of this template, and an explanation of how
+ * to reduce the memory footprint for a given application, see the
+ * "small_hello_world" template.
+ *
+ */
+
+#include <stdio.h>
+#include "system.h"
+#include "altera_avalon_pio_regs.h"
+
+int Bmr(int sex, int height, int weight, int year) {
+	int num = 0;
+	if (sex == 1){
+	  num = (height*6+
+			height/4)+
+			weight*10-
+			year*5+
+			5;
+	}
+	else{
+	  num = (height*6+
+			height/4)+
+			weight*10-
+			year*5-
+			161;
+	}
+}
+
+int main()
+{
+	int sex;
+	int height, height_1, height_2, height_3;
+	int weight, weight_1, weight_2;
+	int year, year_1, year_2;
+	int view;
+	int btn=0;
+	int sw=0;
+	int bmr = 0;
+	int bmr_f[4];
+    int count = 0;
+    int delay;
+    int i = 0 ;
+    while(1)
+   	{
+    	sw = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    	if( sw == 1 || sw == 2 ){
+    		if(sw == 1){
+    			sex = 1;
+    			printf("Hey boy welcome!!\n");
+    		}
+
+    		if(sw == 2){
+    			sex = 2;
+    			printf("Hey girl welcome!!\n");
+    		}
+    		sw = 0 ;
+    		delay = 0 ;
+    		btn = 0 ;
+//////////////////////////////////input_height////////////////////////////////////
+    		printf("Please enter your height!!\n");
+    		while(1){
+    			height_1 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 1 )break;
+    		}
+    		btn = 0;
+
+    		while(1){
+    			height_2 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 2 )break;
+    		}
+    		btn = 0;
+
+    		while(1){
+    			height_3 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 1 )break;
+    		}
+
+    		height = height_1*100 + height_2*10 + height_3;
+    		printf("Height input over!!\n");
+    		if(height == 172)printf("yyyy\n");
+//////////////////////////////////input_height////////////////////////////////////
+
+//////////////////////////////////input_weight////////////////////////////////////
+    		printf("Please enter your weight!!\n");
+    		btn = 0;
+    		while(1){
+    			weight_1 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 2 )break;
+    		}
+    		btn = 0;
+
+    		while(1){
+    			weight_2 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 1 )break;
+    		}
+
+    		weight = weight_1*10 + weight_2;
+    		printf("Weight input over!!\n");
+    		if(weight == 63)printf("yyyy\n");
+//////////////////////////////////input_weight////////////////////////////////////
+
+//////////////////////////////////input_years////////////////////////////////////
+    		printf("Please enter your age!!\n");
+    		btn = 0;
+    		while(1){
+    			year_1 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 2 )break;
+    		}
+    		btn = 0;
+
+    		while(1){
+    			year_2 = IORD_ALTERA_AVALON_PIO_DATA(PIO_SW_BASE);
+    			btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    		   	if( btn == 1 )break;
+    		}
+
+    		year = year_1*10 + year_2;
+    		printf("Age input over!!\n");
+    		if(year == 22)printf("yyyy\n");
+//////////////////////////////////input_years////////////////////////////////////
+    		bmr = Bmr( sex, height, weight, year);
+/*
+    		bmr_f[0] = bmr/1000;
+    		bmr_f[1] = (bmr%1000)/100 ;
+    		bmr_f[2] = (bmr%100)/10 ;
+    		bmr_f[3] = 	bmr%10;
+
+    		printf("Your BMR is : ");
+    		while( i < 4 ){
+    			view = bmr_f[i] ;
+    			if(view == 0 ){
+    				printf("0");
+    			}
+    			if(view == 1 ){
+    				printf("1");
+    			}
+    			if(view == 2 ){
+    				printf("2");
+    			}
+    			if(view == 3 ){
+    				printf("3");
+    			}
+    			if(view == 4 ){
+    				printf("4\n");
+    			}
+    			if(view == 5 ){
+    				printf("5");
+    			}
+    			if(view == 6 ){
+    				printf("6");
+    			}
+    			if(view == 7 ){
+    				printf("7");
+    			}
+    			if(view == 8 ){
+    				printf("8");
+    			}
+    			if(view == 9 ){
+    				printf("9");
+    			}
+
+        		while(delay<500000){
+        		   	delay++;
+        		}
+    			i++;
+    		}
+
+    		IOWR_ALTERA_AVALON_PIO_DATA(PIO_LED_BASE, count &0xFF);
+    	}*/
+
+
+
+    	btn = 0 ;
+    	printf("Please enter your gender!!\n");
+    	while(1){
+    	    btn = IORD_ALTERA_AVALON_PIO_DATA(PIO_BT_BASE);
+    	    if( btn == 2 )break;
+    	    if( btn == 1 )break;
+    	}
+
+   		count++;
+   	}
+    return 0;
+   	}}
+
+
